@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <title>White Black</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="js/jquery-3.1.0.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+
+</head>
+<body class="bg-success bg-gradient text-dark platform disable-dbl-tap-zoom">   
+  <div class="main h-100">
+    <div class="volume-controls position-fixed fixed-right">
+      <audio id="bg-music" src="audio/neon-gaming-music.mp3" type="audio/mp3" autoplay="true" loop="loop" data-link="music" data-status="on"></audio>
+      <audio id="correct-wrong-color-sound" src="audio/correct-color.wav" data-correct="audio/correct-color.wav" data-wrong="audio/wrong-color.wav" type="audio/mp3" data-link="sound" data-status="on"></audio>
+      <audio id="button-click-sound" src="audio/button-click.wav" type="audio/mp3" data-link="sound" data-status="on"></audio>
+      <img src="images/musicOn.png" title="Music" class="music cursor-pointer w-25 mx-md-2" alt="Music control" data-off="Images/musicOff.png" data-on="Images/musicOn.png" data-link="music" data-status="on" />
+      <img src="images/soundOn.png" title="Sound" class="sound cursor-pointer w-25 mx-md-2" alt="Sound control" data-off="Images/soundOff.png" data-on="Images/soundOn.png" data-link="sound" data-status="on" />
+    </div>
+
+    <div class="row m-0">
+      <div class="col-10 col-md-8 col-lg-6 col-xl-4 mx-auto">
+          <h1 class="heading game-title text-center mt-2 mb-0 d-none d-md-block">White Black</h1>
+          <h4 class="heading game-title text-center mt-1 mb-0 d-block d-md-none">White Black</h4>
+      </div>
+    </div>
+
+    <div class="row m-0 setup">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-4 mx-auto">
+          <form class="landscape-form d-flex flex-column">
+              <button class="play-btn mt-2 btn btn-dark font-weight-bold " autofocus  data-parent="setup" data-show="game">Play</button>
+              <button class="help-btn mt-2 btn btn-dark font-weight-bold " data-toggle="modal" data-target="#help-modal">Help</button>
+              <button class="stats-btn mt-2 btn btn-dark font-weight-bold " data-parent="setup" data-show="statistics">Statistics</button>
+              <button class="full-screen-btn mt-2 btn btn-dark font-weight-bold " data-fullscreen="off">Full Screen</button>
+              <a class="more-games-link mt-2 btn btn-dark font-weight-bold" href="https://rajeshwar229.github.io/games/">More Games</a>
+          </form>
+      </div>
+    </div>
+
+    <div class="game d-none h-75">
+      <div class="game-arena w-100">
+        <div class="enemies">
+    
+        </div> 
+        <div class="hero position-fixed mx-auto" data-color="white">
+          <p class="score font-weight-bold text-center text-primary mt-2">0</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-0 statistics d-none">
+      <div class="col-10 col-md-8 col-lg-6 col-xl-4 mx-auto mt-2">
+          <ul class="list-group font-weight-bold text-center">
+              <li class="list-group-item text-info">Number of games played 🎮 : <span class="games-played text-dark">0</span></li>
+              <li class="list-group-item text-info">Your Score 💯 : <span class="score text-dark">0</span></li>
+              <li class="list-group-item text-info">Highest Score 🔝 : <span class="highest-score text-dark">0</span></li>
+          </ul>
+          <form class="landscape-form d-flex flex-column">
+              <button class="play-btn mt-3 btn btn-dark font-weight-bold" data-parent="statistics" data-show="game">Play</button>
+              <button class="main-menu-btn mt-3 btn btn-dark font-weight-bold" data-parent="statistics" data-show="setup">Main Menu</button>
+          </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade text-center" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-primary" id="exampleModalLabel">Help Modal</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <p class="modal-body p-3 text-left">
+            The goal of the game is to match your ball(at the bottom) color with the balls that are falling from above, before they touch your ball.
+            you can touch, click or press spacebar or Enter to change your ball color.
+            Good luck for you and enjoy the game!
+          </p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+html,body {
+    height: 100%;
+}
+
+.ball, .hero{
+    width:50px;
+    height:50px;
+    border-radius: 100px;
+    background-color: black;
+}
+.hero{
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+}
+.fixed-right{
+    right: 0;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+[data-left="0"]{
+    left: 0;
+}
+[data-left="1"]{
+    left: 9%;
+}
+[data-left="2"]{
+    left: 18%;
+}
+[data-left="3"]{
+    left: 28%;
+}
+[data-left="4"]{
+    left: 37%;
+}
+[data-left="5"]{
+    left: 46%;
+}
+[data-left="6"]{
+    left: 56%;
+}
+[data-left="7"]{
+    left: 66%;
+}
+[data-left="8"]{
+    left: 76%;
+}
+[data-left="9"]{
+    left: 86%;
+}
+[data-left="10"]{
+    left: 95%;
+}
+[data-color="white"]{
+    background: white; 
+}
+[data-color="black"]{
+    background: black; 
+}
