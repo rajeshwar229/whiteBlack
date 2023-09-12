@@ -326,10 +326,10 @@ $(function(){
                   });
                 },500);
                 
-                DOM.documentEle.on('keypress click touchstart', function(event){
+                DOM.documentEle.on('keypress click touchend', function(event){
                     let eventType = event.type;
                     if(eventType === 'click' && event.target.nodeName === "BUTTON") return false;
-                    if(event.type === 'touchstart' || eventType === 'click' || (eventType === 'keypress' && (event.originalEvent.code === 'Space' || event.code === 'Space' || event.originalEvent.code === 'Enter' || event.code === 'Enter'))){
+                    if(event.type === 'touchend' || eventType === 'click' || (eventType === 'keypress' && (event.originalEvent.code === 'Space' || event.code === 'Space' || event.originalEvent.code === 'Enter' || event.code === 'Enter'))){
                         let heroColor = DOM.heroEle.attr('data-color');
                         if(heroColor === "white"){
                             gameCtrl.attrChange(DOM.heroEle, 'data-color','black');
