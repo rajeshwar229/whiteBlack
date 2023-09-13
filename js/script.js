@@ -183,7 +183,6 @@ $(function(){
 
             // This will reset all the values to beginning values
             const resetGame = function() {
-                //switchMusic(DOM.gamePlayMusic, DOM.bgMusic);
                 DOM.bgMusic.play();
                 gameObj.highScoreLocalStorage("whiteBlackHighScore", gameObj.score);
 
@@ -196,12 +195,14 @@ $(function(){
                             .addRemoveCls(DOM.resultEle,'d-block','d-none');
                 }
                 
+                // Updating stats, empty enemy container, reset hero to white, reset tap sound
                 gameCtrl.addContent(DOM.gamesPlayed, localStorage['whiteBlackGamesPlayed'])
                         .addContent(DOM.highScore, localStorage['whiteBlackHighScore'])
                         .addContent(DOM.enemiesContainer, '')
+                        .attrChange(DOM.heroEle, 'data-color','white')
                         .attrChange(DOM.tapSound, 'src', DOM.tapSound.dataset.correct);
 
-                $('.statistics button:eq(0)').focus();
+                $('.statistics button:eq(0)').focus(); // Focus the first button in stats page, which is play button
             }
             
             // Force landscape mode
@@ -286,51 +287,55 @@ $(function(){
             DOM.playBtn.on('click', function(event){
                 DOM.bgMusic.pause();
                 DOM.bgMusic.currentTime = 0;
-                gameObj.start = gameObj.start || new gameObject();
-                gameObj.gamesPlayedLocalStorage('whiteBlackGamesPlayed');
+                gameObj.start = gameObj.start || new gameObject(); // Creating a new game Object
+                gameObj.gamesPlayedLocalStorage('whiteBlackGamesPlayed'); // Set the games played for each play button click
                 DOM.scoreEle.text(gameObj.score);
                 
+                // SetInterval for each ball to fall to hero for every 0.5 seconds
                 let incoming = setInterval(function(){
-                    let color = ["black","white"];
-                    let randomLeftPosition = Math.round(Math.random()*10);
+                    let color = ["black","white"]; // For Random enemy color 
+                    let randomLeftPosition = Math.round(Math.random()*10); // For Random enemy position 
                     let heroPosition = DOM.heroEle[0].getBoundingClientRect();
                     
+                    // HTML Template for enemy ball 
                     let ball = `<div class="ball position-fixed" data-left="${randomLeftPosition}" data-color="${color[Math.round(Math.random())]}"></div>`;
+                    
+                    // Appending each ball and animating them to fall to hero ball
                     $(ball).appendTo('.game .enemies').animate({
-                      'bottom':'50px',
-                      'left' : heroPosition.left
+                      'bottom':'50px', // bottom 50px as hero n enemy height is 50px
+                      'left' : heroPosition.left // Set to hero left to reach hero
                     },1000,  function(){
-                    let ballPosition = $('.ball')[0].getBoundingClientRect();
+
+                    let ballPosition = $('.ball')[0] && $('.ball')[0].getBoundingClientRect();
                     
-                    
-                    if(ballPosition.right >= heroPosition.left && 
+                    // Check if enemy ball touches hero ball
+                    if(ballPosition && ballPosition.right >= heroPosition.left && 
                        ballPosition.left <=  heroPosition.right && 
                        ballPosition.top <= heroPosition.bottom && 
                        ballPosition.bottom >= heroPosition.top ){
                       if(DOM.heroEle.attr('data-color') === $(this).attr('data-color')){
-                        tapSound();
+                        tapSound(); // empty arguments will play tap sound
                         gameObj.score++;
                         gameCtrl.addContent(DOM.scoreEle, gameObj.score);
                       }
                       else{
-                        tapSound(true);
-                        clearInterval(incoming);
+                        tapSound(true); // true argument will play crash sound
+                        clearInterval(incoming); //clear the balls incoming setTimeout for wrong color
                         setTimeout(() => {
                             resetGame();
-                        },400);
+                        },500); // Reset Game after 0.5 seconds as to hear wrong color touch sound
                       }
                     }
-                    $(this).remove();
+                    $(this).remove(); //Remove each ball once it touches regardless of color
                   });
                 },500);
             });
 
-
+            //For changing color from white and black when clicking or keypress of space or enter
             DOM.documentEle.on('keypress click', function(event){
                 let eventType = event.type;
-
-                console.info(eventType);
                 if(DOM.gameEle.is(':visible')){
+                    if( eventType === 'click' && event.target.tagName === 'BUTTON' ) return false;
                     if( eventType === 'click' || (eventType === 'keypress' && (event.originalEvent.code === 'Space' || event.code === 'Space' || event.originalEvent.code === 'Enter' || event.code === 'Enter'))){
                     
                         let heroColor = DOM.heroEle.attr('data-color');
