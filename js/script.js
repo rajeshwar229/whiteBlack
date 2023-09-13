@@ -40,9 +40,6 @@ $(function(){
             //Dynamically added UI Elements should be handled as functions
             audioControl : function(dataset) {
                 return $(`audio[data-link=${dataset}]`);
-            },
-            difficultySelect : function(dataset) {
-                return $('input[name="difficulty"][type="radio"]:checked')[0];
             }
         };
 
@@ -96,27 +93,9 @@ $(function(){
                 }
             },
 
-            // Add passed css json object for the element
-            addCSS : function (ele, css) {
-                const cssObj = JSON.parse(css);
-                ele.css(cssObj);
-                return this;
-            },
-
             // Remove an element from DOM
             removeEle : function (ele) {
                 ele.remove();
-                return this;
-            },
-
-            // append html content
-            appendHTML : function (ele, content) {
-                ele.append(content);
-                return this;
-            },
-            // prepend html content
-            prependHTML : function (ele, content) {
-                ele.prepend(content);
                 return this;
             },
         }
@@ -132,7 +111,6 @@ $(function(){
         const gameObj = {
             start : null,
             score : 0,
-            gameSpeed : 3000,
             gamesPlayedLocalStorage : function(key) {
                 localStorage && localStorage[key] ? localStorage[key] = +localStorage[key]+1 : localStorage[key] = 1;
             },
@@ -148,11 +126,6 @@ $(function(){
                 // Random Number Generator for left/right enemy 0-left 1-right
                 this.randomGenerator = function () {
                     return (Math.round(Math.random()));
-                }
-
-                // This method adds enemies to the Enemy Array
-                this.ememyArray = function(){
-                    
                 }
             }
         }
@@ -304,7 +277,7 @@ $(function(){
                     $(ball).appendTo('.game .enemies').animate({
                       'bottom':'50px', // bottom 50px as hero n enemy height is 50px
                       'left' : heroPosition.left // Set to hero left to reach hero
-                    },1000,  function(){
+                    }, 1000,  function(){
 
                     let ballPosition = $('.ball')[0] && $('.ball')[0].getBoundingClientRect();
                     
@@ -313,22 +286,24 @@ $(function(){
                        ballPosition.left <=  heroPosition.right && 
                        ballPosition.top <= heroPosition.bottom && 
                        ballPosition.bottom >= heroPosition.top ){
-                      if(DOM.heroEle.attr('data-color') === $(this).attr('data-color')){
+                      
+                        if(DOM.heroEle.attr('data-color') === $(this).attr('data-color')){
                         tapSound(); // empty arguments will play tap sound
                         gameObj.score++;
                         gameCtrl.addContent(DOM.scoreEle, gameObj.score);
                       }
+
                       else{
                         tapSound(true); // true argument will play crash sound
                         clearInterval(incoming); //clear the balls incoming setTimeout for wrong color
                         setTimeout(() => {
                             resetGame();
-                        },500); // Reset Game after 0.5 seconds as to hear wrong color touch sound
+                        }, 500); // Reset Game after 0.5 seconds as to hear wrong color touch sound
                       }
                     }
-                    $(this).remove(); //Remove each ball once it touches regardless of color
+                    gameCtrl.removeEle($(this)); //Remove each ball once it touches regardless of color
                   });
-                },500);
+                }, 500);
             });
 
             //For changing color from white and black when clicking or keypress of space or enter
