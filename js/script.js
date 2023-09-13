@@ -214,7 +214,7 @@ $(function(){
                     else if(de.mozRequestFullscreen){de.mozRequestFullscreen();}
                     else if(de.webkitRequestFullscreen){de.webkitRequestFullscreen();}
                     else if(de.msRequestFullscreen){de.msRequestFullscreen();}
-                    screen.orientation.lock('landscape');
+                    screen.orientation.lock('portrait');
                     gameCtrl.attrChange($(this),'data-fullscreen','on');
                     gameCtrl.addContent($(this),'Exit Full Screen');
                 }
