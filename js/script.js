@@ -199,8 +199,7 @@ $(function(){
                 gameCtrl.addContent(DOM.gamesPlayed, localStorage['whiteBlackGamesPlayed'])
                         .addContent(DOM.highScore, localStorage['whiteBlackHighScore'])
                         .addContent(DOM.enemiesContainer, '')
-                        .attrChange(DOM.tapSound, 'src', DOM.tapSound.dataset.correct)
-                        .attrChange(DOM.heroEle, 'data-color', 'white');
+                        .attrChange(DOM.tapSound, 'src', DOM.tapSound.dataset.correct);
 
                 $('.statistics button:eq(0)').focus();
             }
@@ -285,7 +284,6 @@ $(function(){
 
             // Start the Game everytime Play button is clicked
             DOM.playBtn.on('click', function(event){
-                //switchMusic(DOM.bgMusic, DOM.gamePlayMusic);
                 DOM.bgMusic.pause();
                 DOM.bgMusic.currentTime = 0;
                 gameObj.start = gameObj.start || new gameObject();
@@ -325,11 +323,16 @@ $(function(){
                     $(this).remove();
                   });
                 },500);
-                
-                DOM.documentEle.on('keypress click touchstart touchend', function(event){
-                    let eventType = event.type;
-                    if(eventType === 'click' && event.target.nodeName === "BUTTON") return false;
-                    if((event.type === 'touchstart' && event.type === 'touchend') || eventType === 'click' || (eventType === 'keypress' && (event.originalEvent.code === 'Space' || event.code === 'Space' || event.originalEvent.code === 'Enter' || event.code === 'Enter'))){
+            });
+
+
+            DOM.documentEle.on('keypress click', function(event){
+                let eventType = event.type;
+
+                console.info(eventType);
+                if(DOM.gameEle.is(':visible')){
+                    if( eventType === 'click' || (eventType === 'keypress' && (event.originalEvent.code === 'Space' || event.code === 'Space' || event.originalEvent.code === 'Enter' || event.code === 'Enter'))){
+                    
                         let heroColor = DOM.heroEle.attr('data-color');
                         if(heroColor === "white"){
                             gameCtrl.attrChange(DOM.heroEle, 'data-color','black');
@@ -338,8 +341,9 @@ $(function(){
                             gameCtrl.attrChange(DOM.heroEle, 'data-color','white');
                         }
                     }
-                });
-            })
+                }
+                
+            });
             
             // This will end game and return to main menu
             DOM.mainMenuBtn.on('click', function() {
