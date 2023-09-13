@@ -18,6 +18,19 @@ html,body {
     right: 0;
 }
 
+
+div.main {
+    height: inherit;
+}
+div.volume-controls{
+    z-index: 2;
+}
+div.volume-controls .music{
+    filter: drop-shadow(0 0 10px white);}
+div.volume-controls .sound{
+    filter: drop-shadow(8px 0px 5px white);
+}
+
 .cursor-pointer {
     cursor: pointer;
 }
