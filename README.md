@@ -1,2 +1,2 @@
-# whiteBlack-github.io
+#https://rajeshwar229.github.io/whiteBlack/
 White Black Game
