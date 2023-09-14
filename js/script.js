@@ -26,6 +26,7 @@ $(function(){
             gameArena : $('.game-arena'),
             enemiesContainer : $('.game .enemies'),
             heroEle : $('.hero'),
+            heroEleBlast : $('.hero img'),
 
             // Statstics & Audio elements
             scoreEle: $('.score'),
@@ -178,6 +179,7 @@ $(function(){
                         .addContent(DOM.highScore, localStorage['whiteBlackHighScore'])
                         .addContent(DOM.enemiesContainer, '')
                         .attrChange(DOM.heroEle, 'data-color','white')
+                        .addRemoveCls(DOM.heroEleBlast, 'd-none')
                         .attrChange(DOM.tapSound, 'src', DOM.tapSound.dataset.correct);
 
                 $('.statistics button:eq(0)').focus(); // Focus the first button in stats page, which is play button
@@ -302,19 +304,26 @@ $(function(){
                                 gameCtrl.attrChange(DOM.tapSound,'src', DOM.tapSound.dataset.correct);
                             },500);
                         }
-                        // Level up after 25 & 50 score
+                        // Level up after 25, 50, 100 & 200 score
                         if(gameObj.score === 25){
                             levelUp(1100, 800);
                         }
                         if(gameObj.score === 50){
                             levelUp(1000, 500);
                         }
+                        if(gameObj.score === 100){
+                            levelUp(900, 400);
+                        }
+                        if(gameObj.score === 200){
+                            levelUp(800, 300);
+                        }
                       }
 
                       else{
                         tapSound(true); // true argument will play crash sound
                         clearInterval(incoming); //clear the balls incoming setTimeout for wrong color
-                         setTimeout(() => {
+                        gameCtrl.addRemoveCls(DOM.heroEleBlast,false, 'd-none');
+                        setTimeout(() => {
                             resetGame();
                         }, 500); // Reset Game after 0.5 seconds as to hear wrong color touch sound
                       }
