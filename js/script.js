@@ -111,7 +111,7 @@ $(function(){
         const gameObj = {
             start : null,
             score : 0,
-            gameSpeed : 1500,
+            gameSpeed : 1200,
             gamesPlayedLocalStorage : function(key) {
                 localStorage && localStorage[key] ? localStorage[key] = +localStorage[key]+1 : localStorage[key] = 1;
             },
@@ -138,6 +138,9 @@ $(function(){
             const tapSound = function(wrong){
                 if(wrong === true){
                     gameCtrl.attrChange(DOM.tapSound,'src', DOM.tapSound.dataset.wrong);
+                }
+                if(wrong === 'bonus'){
+                    gameCtrl.attrChange(DOM.tapSound,'src', DOM.tapSound.dataset.bonus);
                 }
                 if(DOM.tapSound.duration > 0 && !DOM.tapSound.paused){
                     DOM.tapSound.pause();
@@ -180,8 +183,8 @@ $(function(){
                 $('.statistics button:eq(0)').focus(); // Focus the first button in stats page, which is play button
             }
             
-            // Force landscape mode
-            DOM.fullscreenBtn.on('click',function(){
+            // Full screen mode
+            const fullscreenBtnClick = function(){
                 let de = DOM.document.documentElement;
                 if(this.dataset.fullscreen === 'off'){
                     if(de.requestFullscreen){
@@ -202,8 +205,7 @@ $(function(){
                     gameCtrl.attrChange($(this),'data-fullscreen','off');
                     gameCtrl.addContent($(this),'Full Screen');
                 }
-                
-            });
+            }
 
             // Unmute the volume when game is active
             DOM.window.focus(function(){
@@ -221,23 +223,21 @@ $(function(){
             });
 
             // Hide current page and show specific page for all buttons
-            DOM.allButtons.on('click', function(event) {
+            const allButtonsClick = function(event) {
                 event.preventDefault();
                 DOM.buttonClickSound.currentTime = 0;
                 DOM.buttonClickSound.play();
                 DOM.bgMusic.play();
-                
                 
                 if( this.dataset.parent && this.dataset.show ) {
                     gameCtrl.addRemoveCls(gameCtrl.returnParentSibling($(this), this.dataset.parent, this.dataset.show), 'd-block', 'd-none')
                             .addRemoveCls(gameCtrl.returnParent($(this), this.dataset.parent), 'd-none', 'd-block');
                     $(`.${this.dataset.show} button:eq(0)`).focus();
                 }
-                
-            });
+            }
 
             // Music & Sound controls
-            DOM.volumeControls.on('click', function(){
+            const volumeControlsClick = function(){
                 DOM.audioControl(this.dataset.link).each(function(){
                     if(this.dataset.status === 'on'){
                         this.muted = true;
@@ -256,10 +256,10 @@ $(function(){
                     gameCtrl.attrChange($(this)[0],'src',this.dataset.on);
                     this.dataset.status = 'on';
                 }
-            });
-
+            };
+            
             // Start the Game everytime Play button is clicked
-            DOM.playBtn.on('click', function(event){
+            const playBtnClick = function(event){
                 DOM.bgMusic.pause();
                 DOM.bgMusic.currentTime = 0;
                 gameObj.start = gameObj.start || new gameObject(); // Creating a new game Object
@@ -293,15 +293,21 @@ $(function(){
                         gameObj.score++;
                         gameCtrl.addContent(DOM.scoreEle, gameObj.score);
 
-                        if(gameObj.score === 25){
+                        const levelUp = function(gameSpeed, intervalTime){
+                            tapSound('bonus');
                             clearInterval(incoming);
-                            gameObj.gameSpeed = 1250;
-                            incoming = setInterval(enemyFallSpeed, 1000);
+                            gameObj.gameSpeed = gameSpeed;
+                            incoming = setInterval(enemyFallSpeed, intervalTime);
+                            setTimeout(function(){
+                                gameCtrl.attrChange(DOM.tapSound,'src', DOM.tapSound.dataset.correct);
+                            },500);
+                        }
+                        // Level up after 25 & 50 score
+                        if(gameObj.score === 25){
+                            levelUp(1100, 800);
                         }
                         if(gameObj.score === 50){
-                            clearInterval(incoming);
-                            gameObj.gameSpeed = 1000;
-                            incoming = setInterval(enemyFallSpeed, 500);
+                            levelUp(1000, 500);
                         }
                       }
 
@@ -317,12 +323,11 @@ $(function(){
                   });
                 }
                 // SetInterval for each ball to fall to hero for every 0.5 seconds
-                let incoming = setInterval(enemyFallSpeed, 1500);
-
-            });
-
+                let incoming = setInterval(enemyFallSpeed, 1200);
+            };
+            
             //For changing color from white and black when clicking or keypress of space or enter
-            DOM.documentEle.on('keypress click', function(event){
+            const documentEleClick = function(event){
                 let eventType = event.type;
                 if(DOM.gameEle.is(':visible')){
                     if( eventType === 'click' && event.target.tagName === 'BUTTON' ) return false;
@@ -337,8 +342,13 @@ $(function(){
                         }
                     }
                 }
-                
-            });
+            }
+
+            DOM.fullscreenBtn.on('click', fullscreenBtnClick);
+            DOM.allButtons.on('click', allButtonsClick);
+            DOM.volumeControls.on('click', volumeControlsClick);
+            DOM.playBtn.on('click', playBtnClick);
+            DOM.documentEle.on('keypress click', documentEleClick);
             
             // This will end game and return to main menu
             DOM.mainMenuBtn.on('click', function() {
