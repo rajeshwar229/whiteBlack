@@ -326,7 +326,7 @@ $(function(){
                         gameCtrl.addRemoveCls(DOM.heroEleBlast,false, 'd-none');
                         setTimeout(() => {
                             resetGame();
-                        }, 500); // Reset Game after 0.5 seconds as to hear wrong color touch sound
+                        }, 1000); // Reset Game after 0.5 seconds as to hear wrong color touch sound
                       }
                     }
                     gameCtrl.removeEle($(this)); //Remove each ball once it touches regardless of color
