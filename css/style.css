@@ -18,11 +18,8 @@ body{
     right: 0;
     filter: drop-shadow(0px 0px 10px #fff);
 }
-.hero .score,[data-power="true"]{
+.hero .score{
     margin-top: 0.8rem;
-}
-[data-power="false"][data-power-collect="true"]{
-    display:none;
 }
 .hero img{
     bottom: 0;
