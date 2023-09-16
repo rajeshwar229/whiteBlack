@@ -272,9 +272,10 @@ $(function(){
                     let color = ["black","white"]; // For Random enemy color 
                     let randomLeftPosition = Math.round(Math.random()*10); // For Random enemy position 
                     let heroPosition = DOM.heroEle[0].getBoundingClientRect();
+                    let randomColor = Math.round(Math.random());
                     
                     // HTML Template for enemy ball 
-                    let ball = `<div class="ball position-fixed" data-left="${randomLeftPosition}" data-color="${color[Math.round(Math.random())]}"></div>`;
+                    let ball = `<div class="ball position-fixed" data-left="${randomLeftPosition}" data-color="${color[randomColor]}"></div>`;
                     
                     // Appending each ball and animating them to fall to hero ball
                     $(ball).appendTo('.game .enemies').animate({
